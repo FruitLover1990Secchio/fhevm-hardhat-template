@@ -8,14 +8,18 @@ import "hardhat-gas-reporter";
 import type { HardhatUserConfig } from "hardhat/config";
 import { vars } from "hardhat/config";
 import "solidity-coverage";
+import "@nomicfoundation/hardhat-web3-v4";
 
 import "./tasks/accounts";
-import "./tasks/FHECounter";
 
 // Run 'npx hardhat vars setup' to see the list of variables that need to be set
 
 const MNEMONIC: string = vars.get("MNEMONIC", "test test test test test test test test test test test junk");
 const INFURA_API_KEY: string = vars.get("INFURA_API_KEY", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+const ALCHEMY_API_KEY: string = vars.get("ALCHEMY_API_KEY");
+const PRIVATE_KEY_1: string = vars.get("PRIVATE_KEY_1");
+const PRIVATE_KEY_2: string = vars.get("PRIVATE_KEY_2");
+const PRIVATE_KEY_3: string = vars.get("PRIVATE_KEY_3");
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -49,13 +53,9 @@ const config: HardhatUserConfig = {
       url: "http://localhost:8545",
     },
     sepolia: {
-      accounts: {
-        mnemonic: MNEMONIC,
-        path: "m/44'/60'/0'/0/",
-        count: 10,
-      },
+      accounts: [PRIVATE_KEY_1, PRIVATE_KEY_2, PRIVATE_KEY_3],
       chainId: 11155111,
-      url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
+      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
     },
   },
   paths: {
@@ -65,7 +65,7 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
-    version: "0.8.27",
+    version: "0.8.30",
     settings: {
       metadata: {
         // Not including the metadata hash

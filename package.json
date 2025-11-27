@@ -24,8 +24,9 @@
     "hardhat"
   ],
   "dependencies": {
-    "encrypted-types": "^0.0.4",
-    "@fhevm/solidity": "^0.9.1"
+    "@fhevm/solidity": "^0.9.1",
+    "@nomicfoundation/hardhat-web3-v4": "^1.1.0",
+    "encrypted-types": "^0.0.4"
   },
   "devDependencies": {
     "@fhevm/hardhat-plugin": "^0.3.0-1",
