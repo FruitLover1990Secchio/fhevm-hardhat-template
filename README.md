@@ -1,110 +1,67 @@
-# FHEVM Hardhat Template
+# XACML privacy-preserving system
 
-A Hardhat-based template for developing Fully Homomorphic Encryption (FHE) enabled Solidity smart contracts using the
-FHEVM protocol by Zama.
+# What is this?
 
-## Quick Start
+This repository is part of my thesis and it aims to show a proof-of-concept of an ABAC system on the Sepolia testnet
+leveraging homorphic encryption. The encryption is achieved via the fhevm library published by ZAMA.
 
-For detailed instructions see:
-[FHEVM Hardhat Quick Start Tutorial](https://docs.zama.ai/protocol/solidity-guides/getting-started/quick-start-tutorial)
+# How to use
 
-### Prerequisites
-
-- **Node.js**: Version 20 or higher
-- **npm or yarn/pnpm**: Package manager
-
-### Installation
+This repository offers the AMContract.sol and some scripts to write, deploy and test the Smart Policies.
 
 1. **Install dependencies**
 
-   ```bash
-   npm install
-   ```
-
-2. **Set up environment variables**
-
-   ```bash
-   npx hardhat vars set MNEMONIC
-
-   # Set your Infura API key for network access
-   npx hardhat vars set INFURA_API_KEY
-
-   # Optional: Set Etherscan API key for contract verification
-   npx hardhat vars set ETHERSCAN_API_KEY
-   ```
-
-3. **Compile and test**
-
-   ```bash
-   npm run compile
-   npm run test
-   ```
-
-4. **Deploy to local network**
-
-   ```bash
-   # Start a local FHEVM-ready node
-   npx hardhat node
-   # Deploy to local network
-   npx hardhat deploy --network localhost
-   ```
-
-5. **Deploy to Sepolia Testnet**
-
-   ```bash
-   # Deploy to Sepolia
-   npx hardhat deploy --network sepolia
-   # Verify contract on Etherscan
-   npx hardhat verify --network sepolia <CONTRACT_ADDRESS>
-   ```
-
-6. **Test on Sepolia Testnet**
-
-   ```bash
-   # Once deployed, you can run a simple test on Sepolia.
-   npx hardhat test --network sepolia
-   ```
-
-## 📁 Project Structure
-
-```
-fhevm-hardhat-template/
-├── contracts/           # Smart contract source files
-│   └── FHECounter.sol   # Example FHE counter contract
-├── deploy/              # Deployment scripts
-├── tasks/               # Hardhat custom tasks
-├── test/                # Test files
-├── hardhat.config.ts    # Hardhat configuration
-└── package.json         # Dependencies and scripts
+```bash
+  npm install
 ```
 
-## 📜 Available Scripts
+2. **Build the necessary files**
 
-| Script             | Description              |
-| ------------------ | ------------------------ |
-| `npm run compile`  | Compile all contracts    |
-| `npm run test`     | Run all tests            |
-| `npm run coverage` | Generate coverage report |
-| `npm run lint`     | Run linting checks       |
-| `npm run clean`    | Clean build artifacts    |
+```bash
+   node scripts/SmartPolicy.js --checks 5
+   node scripts/SmartDeploy.js --checks 5
+   node script/SmartTest.js --checks 5
+```
 
-## 📚 Documentation
+3. **Deploy and run**
 
-- [FHEVM Documentation](https://docs.zama.ai/fhevm)
-- [FHEVM Hardhat Setup Guide](https://docs.zama.ai/protocol/solidity-guides/getting-started/setup)
-- [FHEVM Testing Guide](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat/write_test)
-- [FHEVM Hardhat Plugin](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat)
+An hardhat node should be up and running.
 
-## 📄 License
+```
+   npx hardhat deploy
+   npx hardhat test
+```
 
-This project is licensed under the BSD-3-Clause-Clear License. See the [LICENSE](LICENSE) file for details.
+4. **Do it all together**
 
-## 🆘 Support
+```bash
+   bash scripts/doOnce.sh 5
+```
 
-- **GitHub Issues**: [Report bugs or request features](https://github.com/zama-ai/fhevm/issues)
-- **Documentation**: [FHEVM Docs](https://docs.zama.ai)
-- **Community**: [Zama Discord](https://discord.gg/zama)
+or
 
----
+```bash
+   bash scripts/doAll.sh
+```
 
-**Built with ❤️ by the Zama team**
+# Notes on usage
+
+1. The number given to the scripts is the number of value-checks (predicates) of the newly created smart policies. It
+   should be a multiple of 5. Each time it will create 6 policies, with different ratioes between private attributes and
+   public attributes, as an example a call with value 50 will create 6 contracts with 0, 10, 20, 30, 40, 50 private
+   attribute checks.
+
+2. The bash script doOnce.sh will automate the procedure for a given value. The script doAll.sh will automate it for all
+   multiple of 5 between 5 and 70.
+
+3. Each test execution will update the results stored in the testResult directory.
+
+4. SmartTestTime.js is a script that creates where the actual decryption is awaited. I divided it to save time when
+   testing for the gas usage only.
+
+5. The test files works fine with either localhost and sepolia.
+
+# Notes on the project
+
+TODO: Just to be on pair with the logic proposed in the thesis, I need a third account to use it for the deployment of
+the contract (the AM Manager). Will fix soon.
