@@ -60,8 +60,3 @@ or
    testing for the gas usage only.
 
 5. The test files works fine with either localhost and sepolia.
-
-# Notes on the project
-
-TODO: Just to be on pair with the logic proposed in the thesis, I need a third account to use it for the deployment of
-the contract (the AM Manager). Will fix soon.
